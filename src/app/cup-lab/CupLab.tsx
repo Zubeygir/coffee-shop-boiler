@@ -4,17 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { NeutralToneMapping, type Group } from "three";
+import { S1, S2 } from "@/components/cup/choreography";
 import { CupModel } from "@/components/cup/CupModel";
 import { PageShadow } from "@/components/cup/PageShadow";
 import { Studio } from "@/components/cup/Studio";
-
-const DEG = Math.PI / 180;
-
-// Spec: floating lid at +0.5 × cup height, offset away from the text (right), rotZ ~18°.
-// S2 pose: rotY 180° (logo side front), then rotX 20° toward the camera.
-const LID_CLOSED = { x: 0, y: 0.5, rotZ: 0 };
-const LID_FLOATING = { x: 0.3, y: 1, rotZ: 18 * DEG };
-const S2_ROTATION = [20 * DEG, 180 * DEG, 0] as const;
 
 export function CupLab() {
   const [lidOpen, setLidOpen] = useState(false);
@@ -28,11 +21,11 @@ export function CupLab() {
   }, [steam]);
 
   useEffect(() => {
-    const pose = lidOpen ? LID_FLOATING : LID_CLOSED;
-    // The lid lives in cup space; the S2 spin mirrors x, so flip it to keep the lid on the right on screen.
-    const mirror = s2 ? -1 : 1;
-    lidRef.current?.position.set(pose.x * mirror, pose.y, 0);
-    lidRef.current?.rotation.set(0, 0, pose.rotZ * mirror);
+    // Same poses and projection as CupRig: the lid lives in cup space, so the S2 spin (cos 180° = −1) is undone.
+    const pose = lidOpen ? S2.lid : S1.lid;
+    const facing = s2 ? -1 : 1;
+    lidRef.current?.position.set(pose.x * facing, pose.y, 0);
+    lidRef.current?.rotation.set(0, 0, pose.rotZ * facing);
   }, [lidOpen, s2]);
 
   return (
@@ -44,7 +37,7 @@ export function CupLab() {
         camera={{ fov: 25, position: [0, 0.4, 6] }}
       >
         <Studio />
-        <group rotation={s2 ? S2_ROTATION : [0, 0, 0]}>
+        <group rotation={s2 ? S2.rotation : [0, 0, 0]}>
           <CupModel lidRef={lidRef} steamAmount={steamAmount} />
         </group>
         <PageShadow />

@@ -15,7 +15,7 @@ Single-page coffee shop demo. The focus is a 3D takeaway cup driven by scroll. E
 - All design and frontend work follows the impeccable skill. If it conflicts with design-language.md, stop and ask.
 
 ## Stack
-Next.js 16 (App Router) · React 19 · Tailwind CSS v4 · framer-motion · three.js via @react-three/fiber + drei + maath · Lenis.
+Next.js 16 (App Router) · React 19 · Tailwind CSS v4 · three.js via @react-three/fiber + drei + maath · Lenis.
 One rAF loop: `SmoothScroll` (Lenis) scrolls, then the canvas renders (`src/lib/frameLoop.ts`, canvas `frameloop="never"`).
 Code, comments, commits: English. UI strings: Turkish, `<html lang="tr">`.
 

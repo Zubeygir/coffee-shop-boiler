@@ -1,10 +1,13 @@
 import { CupSlot } from "@/components/cup/CupSlot";
 import { site } from "@/content/site";
 
-// Left edge of the S2 silhouette (choreography.ts → S2), in % of the 7:10 slot: floating lid top right,
-// the gap under it, the tilted cup mouth near the left edge, the body tapering to the base.
-// Only the left edge matters: the text flows on the left. Fine-tuned by eye in Step 7.9.
-const cupSilhouette = "polygon(26% 0, 100% 0, 100% 100%, 11% 100%, 1% 30%, 18% 16%, 26% 9%)";
+// Right edge of the S2 silhouette, in % of the 16:25 slot, projected from the pose in choreography.ts → S2
+// (cup tilted 20°, spun 180°, lid floating up-left at −18°; idle bob included). The text flows on the right:
+// beside the floating lid it reaches into the slot, steps out at the cup's mouth, then follows the tapering body.
+const cupSilhouette =
+  "polygon(0% 0%, 39.1% 0%, 55.9% 5%, 64.8% 10%, 67.8% 15%, 67.8% 20%, 66.3% 25%, 78.2% 30%, 94.3% 35%, " +
+  "94.8% 40%, 94.7% 45%, 93.3% 50%, 92.5% 55%, 91.7% 60%, 90.8% 65%, 90% 70%, 89.2% 75%, 88.3% 80%, " +
+  "87.5% 85%, 86.7% 90%, 85.8% 95%, 83.1% 100%, 0% 100%)";
 
 export function RevealSection() {
   const { title, paragraph } = site.reveal;
@@ -13,15 +16,16 @@ export function RevealSection() {
     // Extra 25svh above the content lengthens the S1 → S2 scroll window (~880 → ~1100px on a 900px-tall
     // desktop viewport), so the same choreography spreads over more scroll and reads calmer.
     <section id="hikaye" className="px-4 pt-[calc(var(--spacing-section)_+_25svh)] pb-section md:px-10">
-      {/* No max-width on the paragraph: its measure (~60ch) comes from this width minus the float,
-          so the lines actually meet the cup's silhouette. */}
-      <div className="mx-auto flow-root max-w-[70rem]">
+      {/* Width = slot + a 28rem text column (~40ch of lead): narrow enough that the paragraph runs long beside the
+          cup and actually traces its silhouette. No max-width on the text itself, so its lines meet the float. */}
+      <div className="mx-auto flow-root max-w-[calc(var(--cup-size)*1.12_+_28rem)]">
         <CupSlot
           name="reveal"
-          // 1.12 × 1.6 cup heights: the cup plus its floating lid (choreography.ts → S2).
-          className="mx-auto mb-10 aspect-[7/10] w-[calc(var(--cup-size)*1.12)] md:float-right md:mb-0 md:ml-10"
+          // 1.12 × 1.75 cup heights: the cup plus its floating lid (choreography.ts → S2).
+          className="mx-auto mb-10 aspect-[16/25] w-[calc(var(--cup-size)*1.12)] md:float-left md:mb-0"
           style={{ shapeOutside: cupSilhouette, shapeMargin: "0.75rem" }}
         />
+        {/* The headline sits beside the floating lid, the paragraph wraps down the cup. */}
         <h2 className="type-headline">{title}</h2>
         <p className="type-lead mt-6">{paragraph}</p>
       </div>

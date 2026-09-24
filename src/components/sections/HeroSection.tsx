@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { CupSlot } from "@/components/cup/CupSlot";
 import { site } from "@/content/site";
 import { cn } from "@/lib/utils";
+import { HeroIntro } from "./HeroIntro";
 
 const gridRows = ["md:row-start-1", "md:row-start-2", "md:row-start-3"];
 
@@ -25,8 +26,19 @@ export function HeroSection() {
                 index === 0 ? "order-1" : "order-3",
               )}
             >
-              <span className={cn("md:col-start-1 md:justify-self-end", gridRows[index])}>{row.left}</span>{" "}
-              <span className={cn("md:col-start-3 md:justify-self-start", gridRows[index])}>{row.right}</span>
+              <span
+                className={cn("md:col-start-1 md:justify-self-end", gridRows[index])}
+                data-intro-word="left"
+                data-intro-row={index}
+              >
+                {row.left}
+              </span>{" "}
+              {/* Clipped cell: its left edge sits under the cup, so the word can slide out from behind it (HeroIntro). */}
+              <span className={cn("md:col-start-3 md:justify-self-start md:overflow-x-clip", gridRows[index])}>
+                <span className="inline-block" data-intro-word="right" data-intro-row={index}>
+                  {row.right}
+                </span>
+              </span>
             </span>{" "}
           </Fragment>
         ))}
@@ -39,13 +51,15 @@ export function HeroSection() {
         />
       </h1>
 
-      <p className="type-label mt-10 text-char">
+      <p className="type-label mt-10 text-char" data-intro-meta>
         {site.location} · {site.hours}
       </p>
 
-      <p aria-hidden="true" className="scroll-cue type-label absolute inset-x-0 bottom-6 text-center">
+      <p aria-hidden="true" className="scroll-cue type-label absolute inset-x-0 bottom-6 text-center" data-intro-meta>
         {scrollCue} ↓
       </p>
+
+      <HeroIntro />
     </section>
   );
 }
