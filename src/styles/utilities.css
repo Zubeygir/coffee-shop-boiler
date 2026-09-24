@@ -1,5 +1,0 @@
-/* Spinner: sadece gerçekten yavaş yüklemelerde görünür hale gelir.
-   animation-delay süresi içinde sayfa yüklenirse spinner hiç görünmez. */
-@keyframes spinner-reveal {
-  to { opacity: 1; }
-}
