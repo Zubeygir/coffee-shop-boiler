@@ -1,0 +1,25 @@
+@layer base {
+  body {
+    @apply bg-flame text-ink type-body;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-white);
+  }
+}

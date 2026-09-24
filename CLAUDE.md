@@ -15,7 +15,8 @@ Single-page coffee shop demo. The focus is a 3D takeaway cup driven by scroll. E
 - All design and frontend work follows the impeccable skill. If it conflicts with design-language.md, stop and ask.
 
 ## Stack
-Next.js 16 (App Router) · React 19 · Tailwind CSS v4 · framer-motion · three.js via @react-three/fiber + drei + maath (from Step 5).
+Next.js 16 (App Router) · React 19 · Tailwind CSS v4 · framer-motion · three.js via @react-three/fiber + drei + maath · Lenis.
+One rAF loop: `SmoothScroll` (Lenis) scrolls, then the canvas renders (`src/lib/frameLoop.ts`, canvas `frameloop="never"`).
 Code, comments, commits: English. UI strings: Turkish, `<html lang="tr">`.
 
 ## Never
@@ -39,7 +40,8 @@ Code, comments, commits: English. UI strings: Turkish, `<html lang="tr">`.
 
 ## Styling
 - `src/app/globals.css`: imports only.
-- `src/styles/theme.css`: brand tokens (OKLCH) and `@theme inline`.
+- `src/styles/theme.css`: brand color tokens (OKLCH) in `@theme`; Tailwind's default color, radius, shadow,
+  animation, font and text-size scales are reset, so only system values exist.
 - `src/styles/base.css`: `@layer base` resets.
-- `src/styles/utilities.css`: easing, z-index scale, keyframes.
-- Utility-first Tailwind.
+- `src/styles/utilities.css`: easing, durations, z-index scale, type roles (`type-display` … `type-label`), keyframes.
+- Utility-first Tailwind. Text styles come from the `type-*` roles, never ad-hoc sizes.

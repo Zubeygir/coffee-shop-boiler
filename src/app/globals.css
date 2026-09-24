@@ -1,5 +1,7 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 @import "../styles/theme.css";
-@import "../styles/base.css";
+/* Before base.css: its @apply uses the type roles defined here. */
 @import "../styles/utilities.css";
+@import "../styles/base.css";

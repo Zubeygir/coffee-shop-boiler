@@ -1,0 +1,134 @@
+/* static: always emitted, since plain CSS below references them outside utility classes. */
+@theme static {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+:root {
+  --display-size: clamp(3rem, 8vw, 6rem);
+
+  /* One cup height for both stations (hero and reveal), so the cup keeps its size while it travels.
+     Both cup slots derive their size from it. */
+  --cup-size: clamp(10rem, 30svh, 14rem);
+  /* How far the hero cup reaches above and below the 3 headline rows (its box is 1.12 cup heights with the lid). */
+  --hero-cup-overflow: max(0px, calc((var(--cup-size) * 1.12 - var(--display-size) * 2.76) / 2));
+
+  --duration-state: 200ms;
+  --duration-entrance: 600ms;
+
+  --z-base: 0;
+  --z-header: 10;
+  --z-cup: 20;
+  --z-skip-link: 30;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --cup-size: clamp(12rem, 25vw, 23rem);
+  }
+}
+
+/* Type roles from design-language.md → Typography. */
+@utility type-display {
+  font-size: var(--display-size);
+  font-weight: 900;
+  font-variation-settings: "wdth" 62;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+@utility type-headline {
+  font-size: clamp(2.25rem, 5.5vw, 4.5rem);
+  font-weight: 900;
+  font-variation-settings: "wdth" 62;
+  line-height: 0.95;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+
+@utility type-title {
+  font-size: 1.5625rem;
+  font-weight: 800;
+  font-variation-settings: "wdth" 75;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+@utility type-lead {
+  font-size: clamp(1.125rem, 1.6vw, 1.25rem);
+  font-weight: 400;
+  font-variation-settings: "wdth" 100;
+  line-height: 1.55;
+}
+
+@utility type-body {
+  font-size: 1rem;
+  font-weight: 400;
+  font-variation-settings: "wdth" 100;
+  line-height: 1.55;
+}
+
+@utility type-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-variation-settings: "wdth" 100;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+}
+
+/* Links on flame and ink: underline always visible. */
+@utility text-link {
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* Scroll cue fades out over the first 120px of scroll. Unsupported browsers keep it visible. */
+@keyframes cue-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-cue {
+    animation: cue-fade linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 120px;
+  }
+}
+
+/* Menu rows rise as they enter the viewport. Visible by default; static where unsupported. */
+@keyframes row-rise {
+  from {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .menu-row {
+      animation: row-rise var(--ease-out-expo) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
+/* Temporary (removed in 11.4): `?debug=slots` outlines the cup slots. */
+.debug-slots [data-cup-slot] {
+  outline: 2px dashed var(--color-ink);
+  outline-offset: -2px;
+}
+
+/* Only CSS animations are stopped here; transitions stay so reduced-motion crossfades keep working. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
