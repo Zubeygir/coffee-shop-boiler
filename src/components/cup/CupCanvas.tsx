@@ -8,6 +8,14 @@ import { CupRig } from "./CupRig";
 import { useIntro } from "./IntroProvider";
 import { Studio } from "./Studio";
 
+// Pixels per frame for the full-screen canvas. Large or high-DPI screens drop toward DPR 1 instead of rendering
+// ~8M pixels a frame (2560×1440 at 150%); phones and laptops stay at the 1.75 cap. Read at render, not on resize.
+const PIXEL_BUDGET = 4_000_000;
+
+function maxDpr(): number {
+  return Math.max(1, Math.min(1.75, Math.sqrt(PIXEL_BUDGET / (window.innerWidth * window.innerHeight))));
+}
+
 export default function CupCanvas() {
   const { phase } = useIntro();
   const cupSectionsInView = useRef(true);
@@ -50,7 +58,7 @@ export default function CupCanvas() {
       // Variance shadow maps: soft-edged page shadow (PageShadow).
       shadows="variance"
       // Capped below 2: ~25% fewer pixels per frame on retina screens, no visible difference on the cup.
-      dpr={[1, 1.75]}
+      dpr={[1, maxDpr()]}
       // Neutral tone mapping keeps the white cup white against the orange page.
       gl={{ alpha: true, antialias: true, toneMapping: NeutralToneMapping }}
       // Low FOV keeps off-center distortion small, so the cup matches its slot anywhere on screen.

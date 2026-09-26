@@ -10,7 +10,7 @@ export function HeroSection() {
   const { rows, scrollCue } = site.hero;
 
   return (
-    <section id="top" className="relative flex min-h-svh flex-col items-center justify-center px-4 pt-20 pb-24 md:px-10">
+    <section id="top" className="relative flex min-h-svh flex-col items-center justify-center px-4 py-16 md:px-10">
       {/*
         DOM order is row by row, left → right, so the h1 reads as one sentence.
         Mobile: rows stack, the slot is moved below row 1 with `order`.

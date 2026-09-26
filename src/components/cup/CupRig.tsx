@@ -82,7 +82,12 @@ export function CupRig() {
     const revealRect = anchors.current.reveal.getBoundingClientRect();
     const sectionTop = anchors.current.section.getBoundingClientRect().top;
 
-    const target = transitionProgress(sectionTop, revealRect.top + revealRect.height / 2, size.height);
+    const target = transitionProgress(
+      sectionTop,
+      revealRect.top + revealRect.height / 2,
+      revealRect.bottom,
+      size.height,
+    );
     // First frame (e.g. a reload mid-page): start at the current scroll position instead of animating from 0.
     progress.current ??= { cup: target, lid: target };
     easing.damp(progress.current, "cup", target, DAMPING.cup, delta);

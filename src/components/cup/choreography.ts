@@ -118,13 +118,27 @@ const sineInOut = (t: number) => (1 - Math.cos(Math.PI * t)) / 2;
 const smoothstep = (t: number) => t * t * (3 - 2 * t);
 
 /**
+ * Gap between the reveal slot's bottom and the viewport bottom at which the transition may end, in viewport heights.
+ * On tall viewports the whole section is readable long before the slot is centered, and visitors stop there.
+ */
+const END_BOTTOM_GAP = 0.1;
+
+/**
  * S1 → S2 progress from the page's scroll position.
  * 0 until the reveal section's top reaches the viewport bottom; 1 once the reveal slot's center reaches the
- * viewport center. Both edges move with the scroll, so the same formula runs backwards when scrolling up.
+ * viewport center or the whole slot is on screen (bottom `END_BOTTOM_GAP` above the viewport bottom), whichever
+ * comes first. All edges move with the scroll, so the same formula runs backwards when scrolling up.
  */
-export function transitionProgress(revealSectionTop: number, revealSlotCenterY: number, viewportHeight: number): number {
+export function transitionProgress(
+  revealSectionTop: number,
+  revealSlotCenterY: number,
+  revealSlotBottom: number,
+  viewportHeight: number,
+): number {
   const travelled = viewportHeight - revealSectionTop;
-  const remaining = revealSlotCenterY - viewportHeight / 2;
+  const toCenter = revealSlotCenterY - viewportHeight / 2;
+  const toFullyVisible = revealSlotBottom - viewportHeight * (1 - END_BOTTOM_GAP);
+  const remaining = Math.min(toCenter, toFullyVisible);
   const span = travelled + remaining;
   if (span <= 0) return travelled > 0 ? 1 : 0;
   return clamp01(travelled / span);

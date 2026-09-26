@@ -15,7 +15,12 @@ export function RevealSection() {
   return (
     // Extra 25svh above the content lengthens the S1 → S2 scroll window (~880 → ~1100px on a 900px-tall
     // desktop viewport), so the same choreography spreads over more scroll and reads calmer.
-    <section id="hikaye" className="px-4 pt-[calc(var(--spacing-section)_+_25svh)] pb-section md:px-10">
+    // The negative scroll margin lands the nav link on the content (4rem below the viewport top), past that extra
+    // space: landing on the section's top edge would stop the cup mid-transition over the text. Lenis honors it.
+    <section
+      id="hikaye"
+      className="scroll-mt-[calc(4rem_-_var(--spacing-section)_-_25svh)] px-4 pt-[calc(var(--spacing-section)_+_25svh)] pb-section md:px-10"
+    >
       {/* Width = slot + a 28rem text column (~40ch of lead): narrow enough that the paragraph runs long beside the
           cup and actually traces its silhouette. No max-width on the text itself, so its lines meet the float. */}
       <div className="mx-auto flow-root max-w-[calc(var(--cup-size)*1.12_+_28rem)]">

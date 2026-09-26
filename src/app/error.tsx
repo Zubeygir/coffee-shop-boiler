@@ -22,7 +22,7 @@ export default function Error({
       <div className="mx-auto w-full max-w-[80rem]">
         <h1 className="type-headline">{copy.title}</h1>
         <p className="type-body mt-6 max-w-[65ch]">{copy.text}</p>
-        <div className="type-body mt-10 flex flex-wrap gap-x-8 gap-y-4">
+        <div className="type-body mt-10 flex flex-wrap gap-x-10 gap-y-4">
           <button type="button" onClick={() => reset()} className="text-link cursor-pointer">
             {copy.retry}
           </button>

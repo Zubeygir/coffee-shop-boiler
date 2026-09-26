@@ -8,7 +8,7 @@ export function Header() {
           {site.wordmark}
         </a>
         <nav aria-label={site.navLabel}>
-          <ul className="flex gap-5 md:gap-8">
+          <ul className="flex gap-6 md:gap-10">
             {site.nav.map((link) => (
               <li key={link.href}>
                 <a

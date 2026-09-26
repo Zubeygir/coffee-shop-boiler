@@ -46,12 +46,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="tr" className={archivo.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: introScript }} />
-        {/* Temporary (removed in 11.4): `?debug=slots` outlines the cup slots. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `if(/[?&]debug=slots\\b/.test(location.search))document.documentElement.classList.add("debug-slots")`,
-          }}
-        />
       </head>
       <body>{children}</body>
     </html>

@@ -77,11 +77,16 @@
   line-height: 1.3;
 }
 
-/* Links on flame and ink: underline always visible. */
+/* Links on flame and ink: underline always visible; it thickens on hover. */
 @utility text-link {
   text-decoration-line: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
+  transition: text-decoration-thickness var(--duration-state) var(--ease-out-quart);
+
+  &:hover {
+    text-decoration-thickness: 4px;
+  }
 }
 
 /* Scroll cue fades out over the first 120px of scroll. Unsupported browsers keep it visible. */
@@ -123,12 +128,6 @@
 .intro-pending [data-intro-word],
 .intro-pending [data-intro-meta] {
   opacity: 0;
-}
-
-/* Temporary (removed in 11.4): `?debug=slots` outlines the cup slots. */
-.debug-slots [data-cup-slot] {
-  outline: 2px dashed var(--color-ink);
-  outline-offset: -2px;
 }
 
 /* Only CSS animations are stopped here; transitions stay so reduced-motion crossfades keep working. */
